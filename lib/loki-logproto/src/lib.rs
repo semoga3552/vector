@@ -1,3 +1,9 @@
+// Prost doesn't include an `Eq` derive for every type it derives `PartialEq` on, which is now a
+// Clippy lint as of 1.63.0. We can't use the type approach of adding extra attributes to the types
+// it generates unless we list out every single type that's missing it because, unfortunately, Prost
+// _does_ derive `Eq` for enums so wildcard deriving `Eq` is not an option.
+#![allow(clippy::derive_partial_eq_without_eq)]
+
 pub mod stats {
     include!(concat!(env!("OUT_DIR"), "/stats.rs"));
 }
@@ -68,7 +74,7 @@ pub mod util {
             .map(|(k, v)| format!("{}=\"{}\"", k, v))
             .collect();
         labels.sort();
-        return format!("{{{}}}", labels.join(", "));
+        format!("{{{}}}", labels.join(", "))
     }
 }
 

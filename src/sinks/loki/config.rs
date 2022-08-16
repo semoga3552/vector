@@ -27,7 +27,7 @@ pub enum ExtendedCompression {
     Snappy,
 }
 
-/// Compose with basic compression and Loki-specific compression.  
+/// Compose with basic compression and Loki-specific compression.
 #[configurable_component(sink)]
 #[derive(Debug, Copy, Clone, Eq, PartialEq)]
 #[serde(untagged)]
@@ -39,7 +39,7 @@ pub enum CompressionConfigAdapter {
 }
 
 impl CompressionConfigAdapter {
-    pub fn content_encoding(&self) -> Option<&'static str> {
+    pub const fn content_encoding(self) -> Option<&'static str> {
         match self {
             CompressionConfigAdapter::Original(compression) => compression.content_encoding(),
             CompressionConfigAdapter::Extended(_) => None,
